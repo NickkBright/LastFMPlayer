@@ -2,15 +2,13 @@ package com.nickkbright.lastfmplayer.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.nickkbright.lastfmplayer.fragments.PlayerFragment;
 import com.nickkbright.lastfmplayer.fragments.ProfileFragment;
 
-import java.util.ArrayList;
-import java.util.List;
 
-public class TabsAdapter extends FragmentPagerAdapter {
+public class TabsAdapter extends FragmentStatePagerAdapter {
 
     private int mTabNumber;
     private ProfileFragment profileFragment;
