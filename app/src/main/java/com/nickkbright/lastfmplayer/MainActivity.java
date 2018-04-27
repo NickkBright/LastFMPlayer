@@ -1,11 +1,7 @@
 package com.nickkbright.lastfmplayer;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -16,9 +12,6 @@ import com.ag.lfm.Lfm;
 import com.ag.lfm.LfmError;
 import com.nickkbright.lastfmplayer.activities.LoginActivity;
 import com.nickkbright.lastfmplayer.adapters.TabsAdapter;
-import com.nickkbright.lastfmplayer.models.Audio;
-
-import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        contextOfApplication = getApplicationContext();
+
         Lfm.wakeUpSession(new Lfm.LfmCallback<Lfm.LoginState>() {
             @Override
             public void onResult(Lfm.LoginState result) {
@@ -52,12 +45,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         tabLayout = (TabLayout)findViewById(R.id.tab_layout);
         viewPager = (ViewPager)findViewById(R.id.view_pager);
+        contextOfApplication = getApplicationContext();
+
         tabsAdapter = new TabsAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(tabsAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
@@ -75,12 +71,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
-    public static Context getContextOfApplication()
-    {
+    public static Context getContextOfApplication() {
         return contextOfApplication;
     }
-
-
 }

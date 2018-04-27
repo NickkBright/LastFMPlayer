@@ -9,23 +9,145 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        android:layout_height="200dp"
-        app:cardBackgroundColor="@color/colorAccent">
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
 
-        <ImageView
-            android:id="@+id/imageView3"
+            android:layout_height="200dp"
+            app:cardBackgroundColor="@color/colorAccent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="200dp"
+                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                android:src="@drawable/default_profile_pic" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:cardBackgroundColor="@color/darkBackground">
+
+            <TextView
+                android:id="@+id/user_profile_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="24sp" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:cardBackgroundColor="@color/darkBackground">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/playcount"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/playcount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/subscriberscount"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/artistcount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <Button
+            android:id="@+id/show_all_artists"
+            style="@android:style/Widget.Material.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/show_more"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent" />
+
+
+        <GridView
+            android:id="@+id/artist_grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:clickable="true"
+
+            android:focusable="true"
+            android:numColumns="5">
+
+
+        </GridView>
+
+        <Button
+            android:id="@+id/show_all_albums"
+            style="@android:style/Widget.Material.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/show_more"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent" />
+
+        <GridView
+            android:id="@+id/albums_grid_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/default_profile_pic" />
-    </android.support.v7.widget.CardView>
+            android:clickable="true"
+            android:focusable="true"
+            android:numColumns="5">
 
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
+
+        </GridView>
+
+    </LinearLayout>
 
 </FrameLayout>

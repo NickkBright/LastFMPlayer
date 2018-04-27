@@ -1,23 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="6dp"
-    android:elevation="100dp">
+    android:elevation="100dp"
+    app:cardBackgroundColor="@color/darkBackground">
 
     <!--android:background="#00bcd4"-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="25dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="25dp">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
             android:text="Track"
             android:textSize="24sp" />
 
@@ -26,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Artist"
+            android:textColor="@android:color/white"
             android:textSize="18sp" />
     </LinearLayout>
 </android.support.v7.widget.CardView>
