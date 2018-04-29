@@ -12,4 +12,5 @@
     <string name="playcount">SCROBBLES</string>
     <string name="subscriberscount">SUBSCRIBERS</string>
     <string name="show_more">Show more...</string>
+    <string name="plays">plays</string>
 </resources>

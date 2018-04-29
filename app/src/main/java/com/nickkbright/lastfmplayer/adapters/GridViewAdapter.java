@@ -18,42 +18,39 @@ import java.util.ArrayList;
 //This is a custom adapter. It has been extended from BaseAdapter because
 //we need to overrider the getView function for changing the layout of each Grid View Item
 public class GridViewAdapter extends BaseAdapter {
-
     private ArrayList<GridItem> mGridItemData;
     private LayoutInflater mInflaterCatalogListItems;
 
-    public GridViewAdapter(Context context, ArrayList<GridItem> flowerData) {
-        mGridItemData = flowerData;
+    public GridViewAdapter (Context context, ArrayList<GridItem> gridItemData) {
+        mGridItemData = gridItemData;
         mInflaterCatalogListItems = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     //This function will determine how many items to be displayed
     @Override
-    public int getCount() {
+    public int getCount () {
         return mGridItemData.size();
     }
 
     @Override
-    public Object getItem(int position) {
+    public Object getItem (int position) {
         return mGridItemData.get(position);
     }
 
     @Override
-    public long getItemId(int position) {
+    public long getItemId (int position) {
         return position;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
+    public View getView (int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
 
         if (convertView == null) {
-
             holder = new ViewHolder();
-            convertView = mInflaterCatalogListItems.inflate(R.layout.grid_item,
-                    null);
+            convertView = mInflaterCatalogListItems.inflate(R.layout.grid_item, null);
             holder.sName = (TextView) convertView.findViewById(R.id.item_name);
+            holder.sPlaycount = (TextView) convertView.findViewById(R.id.item_playcount);
             holder.sImageURL = (ImageView) convertView.findViewById(R.id.item_image);
             convertView.setTag(holder);
 
@@ -61,9 +58,9 @@ public class GridViewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-
         if (mGridItemData.get(position) != null) {
             holder.sName.setText(mGridItemData.get(position).getName());
+            holder.sPlaycount.setText(mGridItemData.get(position).getPlaycount());
             Picasso.get().load(mGridItemData.get(position).getImageURL()).into(holder.sImageURL);
         }
 
@@ -72,8 +69,7 @@ public class GridViewAdapter extends BaseAdapter {
 
     private static class ViewHolder {
         TextView sName;
+        TextView sPlaycount;
         ImageView sImageURL;
-
     }
-
 }

@@ -2,6 +2,10 @@ package com.nickkbright.lastfmplayer.models;
 
 public class GridItem {
     private String name;
+
+
+
+    private String playcount;
     private String imageURL;
 
     public String getName() {
@@ -12,6 +16,14 @@ public class GridItem {
         this.name = name;
     }
 
+    public String getPlaycount() {
+        return playcount;
+    }
+
+    public void setPlaycount(String playcount) {
+        this.playcount = playcount;
+    }
+
     public String getImageURL() {
         return imageURL;
     }
@@ -20,8 +32,10 @@ public class GridItem {
         this.imageURL = imageURL;
     }
 
-    public GridItem(String name, String imageURL) {
+    public GridItem(String name, String playcount, String imageURL) {
         super();
         this.name = name;
+        this.playcount = playcount;
+        this.imageURL = imageURL;
     }
 }
