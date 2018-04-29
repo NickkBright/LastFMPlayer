@@ -10,9 +10,15 @@
     <string name="player_tab">Music</string>
 
     <string name="playcount">SCROBBLES</string>
+    <string name="toolbar_info">INFO</string>
+    <string name="albums">ALBUMS</string>
+    <string name="biography">BIOGRAPHY</string>
+    <string name="listeners">LISTENERS</string>
     <string name="topartists">TOP ARTISTS</string>
+    <string name="similarartists">SIMILAR ARTISTS</string>
     <string name="topalbums">TOP ALBUMS</string>
     <string name="subscriberscount">SUBSCRIBERS</string>
     <string name="show_more">Show more...</string>
     <string name="plays">plays</string>
+    <string name="track_info">Track info</string>
 </resources>

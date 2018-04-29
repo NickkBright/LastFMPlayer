@@ -5,6 +5,7 @@
     <dimen name="gridView_cellWidth">160dp</dimen>
     <dimen name="gridView_cellHeight">160dp</dimen>
     <dimen name="cellText_padding">5dp</dimen>
+    <dimen name="bioText_padding">10dp</dimen>
     <dimen name="elementMargin">10dp</dimen>
     <dimen name="cellText_textSize">18sp</dimen>
 </resources>
