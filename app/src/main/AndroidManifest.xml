@@ -27,7 +27,7 @@
             android:name=".activities.LoginActivity"
             android:theme="@style/LoginActivityTheme" />
         <activity android:name=".activities.PlayerActivity" />
-
+        <activity android:name=".activities.FullGridViewActivity"></activity>
     </application>
 
 </manifest>

@@ -12,7 +12,7 @@ import com.nickkbright.lastfmplayer.models.Audio;
 import java.util.List;
 
 public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.ViewHolder> {
-    List<Audio> mTrackList;
+    private List<Audio> mTrackList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 

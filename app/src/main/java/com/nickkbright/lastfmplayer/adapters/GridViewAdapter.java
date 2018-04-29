@@ -15,8 +15,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 
-//This is a custom adapter. It has been extended from BaseAdapter because
-//we need to overrider the getView function for changing the layout of each Grid View Item
 public class GridViewAdapter extends BaseAdapter {
     private ArrayList<GridItem> mGridItemData;
     private LayoutInflater mInflaterCatalogListItems;
@@ -26,7 +24,6 @@ public class GridViewAdapter extends BaseAdapter {
         mInflaterCatalogListItems = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    //This function will determine how many items to be displayed
     @Override
     public int getCount () {
         return mGridItemData.size();

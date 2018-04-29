@@ -3,13 +3,15 @@
     <string name="api_key">bf1339f13fde6ad395b4a9994d553176</string>
     <string name="secret">ac0625af359a9d45d2fdfc9db078664c</string>
     <!-- Strings related to login -->
-    <string name="username_hint">Username</string>
-    <string name="password_hint">Password</string>
+    <string name="username_hint">USERNAME</string>
+    <string name="password_hint">PASSWORD</string>
     <string name="action_sign_in">Sign In</string>
     <string name="profile_tab">Profile</string>
     <string name="player_tab">Music</string>
 
     <string name="playcount">SCROBBLES</string>
+    <string name="topartists">TOP ARTISTS</string>
+    <string name="topalbums">TOP ALBUMS</string>
     <string name="subscriberscount">SUBSCRIBERS</string>
     <string name="show_more">Show more...</string>
     <string name="plays">plays</string>

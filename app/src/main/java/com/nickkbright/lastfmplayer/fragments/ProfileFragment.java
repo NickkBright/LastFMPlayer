@@ -3,6 +3,8 @@ package com.nickkbright.lastfmplayer.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +14,13 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ag.lfm.Lfm;
 import com.ag.lfm.LfmError;
 import com.ag.lfm.LfmParameters;
 import com.ag.lfm.LfmRequest;
 import com.ag.lfm.api.LfmApi;
+import com.nickkbright.lastfmplayer.MainActivity;
 import com.nickkbright.lastfmplayer.R;
-import com.nickkbright.lastfmplayer.activities.LoginActivity;
+import com.nickkbright.lastfmplayer.activities.FullGridViewActivity;
 import com.nickkbright.lastfmplayer.adapters.GridViewAdapter;
 import com.nickkbright.lastfmplayer.models.GridItem;
 import com.squareup.picasso.Picasso;
@@ -29,10 +31,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private ArrayList<GridItem> mTopArtists = new ArrayList<>();
     private ArrayList<GridItem> mTopAlbums = new ArrayList<>();
-    private Button mLogout;
     private ImageView mProfileImage;
     private String profileImageUrl;
     private String itemName;
@@ -48,13 +49,21 @@ public class ProfileFragment extends Fragment {
     private JSONArray albums;
     private GridView artistGridview;
     private GridView albumsGridView;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
+    private final Intent intent = new Intent(MainActivity.getContextOfApplication(), FullGridViewActivity.class);
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         artistGridview = (GridView) view.findViewById(R.id.artist_grid_view);
         albumsGridView = (GridView) view.findViewById(R.id.albums_grid_view);
+
+        Button mShowMoreArtists = (Button) view.findViewById(R.id.show_all_artists);
+        Button mShowMoreAlbums = (Button) view.findViewById(R.id.show_all_albums);
         artistGridview.setVerticalScrollBarEnabled(false);
         albumsGridView.setVerticalScrollBarEnabled(false);
         mProfileImage = (ImageView) view.findViewById(R.id.profile_image);
@@ -62,10 +71,30 @@ public class ProfileFragment extends Fragment {
         mPlaycount = (TextView) view.findViewById(R.id.playcount);
         mSubscriberCount = (TextView) view.findViewById(R.id.artistcount);
 
-        getUserInfo();
 
+        getUserInfo();
+        mShowMoreArtists.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent.putExtra("EXTRA_ITEM_TYPE", "artist");
+                startActivity(intent);
+            }
+        });
+
+        mShowMoreAlbums.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.getContextOfApplication(), FullGridViewActivity.class);
+                intent.putExtra("EXTRA_ITEM_TYPE", "albums");
+                startActivity(intent);
+            }
+        });
+
+
+        mSwipeRefreshLayout.setOnRefreshListener(ProfileFragment.this);
         return view;
     }
+
 
     public void getUserInfo () {
         LfmRequest UserInfoRequest = LfmApi.user().getInfo();
@@ -90,6 +119,7 @@ public class ProfileFragment extends Fragment {
 
                 Picasso.get().load(profileImageUrl).into(mProfileImage);
                 mUsername.setText(profileName);
+                intent.putExtra("EXTRA_USERNAME", profileName);
                 mPlaycount.setText(playcount);
                 mSubscriberCount.setText(subscribercount);
 
@@ -186,5 +216,10 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+    }
+
+    @Override
+    public void onRefresh() {
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }
