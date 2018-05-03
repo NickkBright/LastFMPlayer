@@ -185,14 +185,6 @@
                     android:focusable="true"
                     android:numColumns="3" />
 
-                <Button
-                    android:id="@+id/show_all_albums"
-                    style="@android:style/Widget.Material.Button.Borderless"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/show_more"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorAccent" />
             </LinearLayout>
     </ScrollView>
 

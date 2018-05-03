@@ -1,11 +1,14 @@
 package com.nickkbright.lastfmplayer.activities;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -25,10 +28,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class FullGridViewActivity extends AppCompatActivity {
+    private Intent albumInfoIntent;
+    private Intent artistInfoIntent;
     private Toolbar mToolbar;
     private TextView mToolbarTitle;
     private String mItemType;
-    private String mbid;
+    private String artistName;
     private String artistPlaycount;
     private GridView mGridView;
     private ArrayList<GridItem> mTopArtists = new ArrayList<>();
@@ -46,6 +51,7 @@ public class FullGridViewActivity extends AppCompatActivity {
         mGridView = (GridView) findViewById(R.id.item_grid_view);
         mGridView.setVerticalScrollBarEnabled(true);
         setSupportActionBar(mToolbar);
+        albumInfoIntent = new Intent(this, AlbumInfoActivity.class);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -91,11 +97,8 @@ public class FullGridViewActivity extends AppCompatActivity {
                         artistPlaycount = artists
                                 .optJSONObject(i)
                                 .optString("playcount");
-                        mbid = artists
-                                .optJSONObject(i)
-                                .optString("mbid");
 
-                        mTopArtists.add(new GridItem(itemName, artistPlaycount, ImageUrl, mbid));
+                        mTopArtists.add(new GridItem(itemName, artistPlaycount, ImageUrl));
                     }
 
                     mGridView.setAdapter(new GridViewAdapter(getApplicationContext(), mTopArtists));
@@ -123,6 +126,10 @@ public class FullGridViewActivity extends AppCompatActivity {
 
                 if (albums.length() > 0) {
                     for (int i = 0; i < albums.length(); i++) {
+                        artistName = albums
+                                .optJSONObject(i)
+                                .optJSONObject("artist")
+                                .optString("name");
                         itemName = albums
                                 .optJSONObject(i)
                                 .optString("name");
@@ -134,14 +141,22 @@ public class FullGridViewActivity extends AppCompatActivity {
                         artistPlaycount = albums
                                 .optJSONObject(i)
                                 .optString("playcount");
-                        mbid = albums
-                                .optJSONObject(i)
-                                .optString("mbid");
 
-                        mTopAlbums.add(new GridItem(itemName, artistPlaycount, ImageUrl, mbid));
+
+                        mTopAlbums.add(new GridItem(itemName, artistPlaycount, ImageUrl, artistName));
+
                     }
 
                     mGridView.setAdapter(new GridViewAdapter(getApplicationContext(), mTopAlbums));
+
+                    mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            albumInfoIntent.putExtra("EXTRA_ALBUM_NAME", mTopAlbums.get(position).getName());
+                            albumInfoIntent.putExtra("EXTRA_ARTIST_NAME", mTopAlbums.get(position).getArtistName());
+                            startActivity(albumInfoIntent);
+                        }
+                    });
                 } else {
                     mGridView.setVisibility(View.INVISIBLE);
                 }

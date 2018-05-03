@@ -95,7 +95,7 @@ public class AlbumInfoActivity extends AppCompatActivity {
                 ImageURL = response
                         .optJSONObject("album")
                         .optJSONArray("image")
-                        .optJSONObject(2)
+                        .optJSONObject(4)
                         .optString("#text");
                 listenersCount = response
                         .optJSONObject("album")
