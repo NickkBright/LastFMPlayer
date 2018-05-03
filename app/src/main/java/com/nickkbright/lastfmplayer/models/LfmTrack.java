@@ -2,32 +2,31 @@ package com.nickkbright.lastfmplayer.models;
 
 public class LfmTrack {
 
-    private String artist,track;
+    private String trackName;
+    private String duration;
     private String imageURL;
 
-    public LfmTrack() {
-    }
-
-    public LfmTrack(String artist, String track, String imageURL) {
-        this.artist = artist;
-        this.track = track;
+    public LfmTrack(String trackName, String duration, String imageURL) {
+        this.trackName = trackName;
+        this.duration = duration;
         this.imageURL = imageURL;
     }
 
-    public String getArtist() {
-        return artist;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
 
     public String getTrack() {
-        return track;
+        return trackName;
     }
 
-    public void setTrack(String track) {
-        this.track = track;
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public void setTrack(String trackName) {
+        this.trackName = trackName;
     }
 
     public String getImageURL() {

@@ -21,11 +21,10 @@
 
                     <TextView
                         android:id="@+id/toolbar_title2"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="@string/toolbar_info"
-                        android:textAlignment="center"
                         android:textColor="@android:color/white"
                         android:textSize="18sp" />
                 </android.support.v7.widget.Toolbar>

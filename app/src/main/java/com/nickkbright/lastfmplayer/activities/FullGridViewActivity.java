@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.ag.lfm.LfmError;
 import com.ag.lfm.LfmParameters;
 import com.ag.lfm.LfmRequest;
+import com.ag.lfm.Session;
 import com.ag.lfm.api.LfmApi;
 import com.nickkbright.lastfmplayer.R;
 import com.nickkbright.lastfmplayer.adapters.GridViewAdapter;
@@ -27,7 +28,7 @@ public class FullGridViewActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private TextView mToolbarTitle;
     private String mItemType;
-    private String mProfileName;
+    private String mbid;
     private String artistPlaycount;
     private GridView mGridView;
     private ArrayList<GridItem> mTopArtists = new ArrayList<>();
@@ -50,7 +51,6 @@ public class FullGridViewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         mItemType = getIntent().getStringExtra("EXTRA_ITEM_TYPE");
-        mProfileName = getIntent().getStringExtra("EXTRA_USERNAME");
         if (mItemType.equals("artist")) {
             mToolbarTitle.setText("Top Artists");
             getUserTopArtists();
@@ -70,7 +70,7 @@ public class FullGridViewActivity extends AppCompatActivity {
 
     public void getUserTopArtists () {
         LfmParameters pTopArtists = new LfmParameters();
-        pTopArtists.put("user", mProfileName);
+        pTopArtists.put("user", Session.username);
 
         LfmRequest TopArtistsRequest = LfmApi.user().getTopArtists(pTopArtists);
         TopArtistsRequest.executeWithListener(new LfmRequest.LfmRequestListener() {
@@ -91,8 +91,11 @@ public class FullGridViewActivity extends AppCompatActivity {
                         artistPlaycount = artists
                                 .optJSONObject(i)
                                 .optString("playcount");
+                        mbid = artists
+                                .optJSONObject(i)
+                                .optString("mbid");
 
-                        mTopArtists.add(new GridItem(itemName, artistPlaycount, ImageUrl));
+                        mTopArtists.add(new GridItem(itemName, artistPlaycount, ImageUrl, mbid));
                     }
 
                     mGridView.setAdapter(new GridViewAdapter(getApplicationContext(), mTopArtists));
@@ -110,7 +113,7 @@ public class FullGridViewActivity extends AppCompatActivity {
 
     public void getUserTopAlbums () {
         LfmParameters pTopAlbums = new LfmParameters();
-        pTopAlbums.put("user", mProfileName);
+        pTopAlbums.put("user", Session.username);
 
         LfmRequest TopAlbumsRequest = LfmApi.user().getTopAlbums(pTopAlbums);
         TopAlbumsRequest.executeWithListener(new LfmRequest.LfmRequestListener() {
@@ -131,8 +134,11 @@ public class FullGridViewActivity extends AppCompatActivity {
                         artistPlaycount = albums
                                 .optJSONObject(i)
                                 .optString("playcount");
+                        mbid = albums
+                                .optJSONObject(i)
+                                .optString("mbid");
 
-                        mTopAlbums.add(new GridItem(itemName, artistPlaycount, ImageUrl));
+                        mTopAlbums.add(new GridItem(itemName, artistPlaycount, ImageUrl, mbid));
                     }
 
                     mGridView.setAdapter(new GridViewAdapter(getApplicationContext(), mTopAlbums));

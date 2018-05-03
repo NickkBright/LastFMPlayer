@@ -18,6 +18,7 @@ public class LfmTracksAdapter extends RecyclerView.Adapter<LfmTracksAdapter.LfmT
 
 
     private List<LfmTrack> trackList;
+    private String trackNumber;
     private Context context;
 
     public LfmTracksAdapter(Context context,List<LfmTrack> trackList) {
@@ -27,13 +28,15 @@ public class LfmTracksAdapter extends RecyclerView.Adapter<LfmTracksAdapter.LfmT
 
     @Override
     public LfmTracksViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.lfm_track_item,parent,false);
-        return new LfmTracksViewHolder(itemView);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lfm_track_item,parent,false);
+        return new LfmTracksViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(LfmTracksViewHolder holder, int position) {
-        holder.artist.setText(trackList.get(position).getArtist());
+        trackNumber = Integer.toString(position+1);
+        holder.number.setText(trackNumber);
+        holder.duration.setText(trackList.get(position).getDuration());
         holder.track.setText(trackList.get(position).getTrack());
 
         Picasso.get().load(trackList.get(position).getImageURL()).fit().into(holder.album);
@@ -46,15 +49,16 @@ public class LfmTracksAdapter extends RecyclerView.Adapter<LfmTracksAdapter.LfmT
 
     public class LfmTracksViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView artist,track;
+        public TextView track,duration, number;
         public ImageView album;
 
-        public LfmTracksViewHolder(View itemView) {
-            super(itemView);
+        public LfmTracksViewHolder(View view) {
+            super(view);
 
-            artist = (TextView) itemView.findViewById(R.id.artist);
-            track = (TextView) itemView.findViewById(R.id.track);
-            album = (ImageView)itemView.findViewById(R.id.album_image);
+            duration = (TextView) view.findViewById(R.id.duration);
+            track = (TextView) view.findViewById(R.id.track_name);
+            album = (ImageView)view.findViewById(R.id.album_image);
+            number = (TextView)view.findViewById(R.id.track_number);
 
         }
 

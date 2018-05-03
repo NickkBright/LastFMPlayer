@@ -13,6 +13,7 @@
     <string name="toolbar_info">INFO</string>
     <string name="albums">ALBUMS</string>
     <string name="biography">BIOGRAPHY</string>
+    <string name="tracklist_album">TRACKS</string>
     <string name="listeners">LISTENERS</string>
     <string name="topartists">TOP ARTISTS</string>
     <string name="similarartists">SIMILAR ARTISTS</string>

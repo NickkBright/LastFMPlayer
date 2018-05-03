@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -17,9 +18,12 @@ import android.widget.TextView;
 import com.ag.lfm.LfmError;
 import com.ag.lfm.LfmParameters;
 import com.ag.lfm.LfmRequest;
+import com.ag.lfm.Session;
 import com.ag.lfm.api.LfmApi;
 import com.nickkbright.lastfmplayer.MainActivity;
 import com.nickkbright.lastfmplayer.R;
+import com.nickkbright.lastfmplayer.activities.AlbumInfoActivity;
+import com.nickkbright.lastfmplayer.activities.ArtistInfoActivity;
 import com.nickkbright.lastfmplayer.activities.FullGridViewActivity;
 import com.nickkbright.lastfmplayer.adapters.GridViewAdapter;
 import com.nickkbright.lastfmplayer.models.GridItem;
@@ -42,6 +46,7 @@ public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private String profileName;
     private String playcount;
     private String subscribercount;
+    private String artistName;
     private TextView mPlaycount;
     private TextView mSubscriberCount;
     private TextView mUsername;
@@ -51,7 +56,9 @@ public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private GridView albumsGridView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private final Intent intent = new Intent(MainActivity.getContextOfApplication(), FullGridViewActivity.class);
+    private final Intent showMoreIntent = new Intent(MainActivity.getContextOfApplication(), FullGridViewActivity.class);
+    private final Intent albumInfoIntent = new Intent(MainActivity.getContextOfApplication(), AlbumInfoActivity.class);
+    private final Intent artistInfoIntent = new Intent(MainActivity.getContextOfApplication(), ArtistInfoActivity.class);
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,20 +80,21 @@ public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
 
         getUserInfo();
+        getUserTopArtists();
+        getUserTopAlbums();
         mShowMoreArtists.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent.putExtra("EXTRA_ITEM_TYPE", "artist");
-                startActivity(intent);
+                showMoreIntent.putExtra("EXTRA_ITEM_TYPE", "artist");
+                startActivity(showMoreIntent);
             }
         });
 
         mShowMoreAlbums.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.getContextOfApplication(), FullGridViewActivity.class);
-                intent.putExtra("EXTRA_ITEM_TYPE", "albums");
-                startActivity(intent);
+                showMoreIntent.putExtra("EXTRA_ITEM_TYPE", "albums");
+                startActivity(showMoreIntent);
             }
         });
 
@@ -119,13 +127,11 @@ public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
                 Picasso.get().load(profileImageUrl).into(mProfileImage);
                 mUsername.setText(profileName);
-                intent.putExtra("EXTRA_USERNAME", profileName);
                 mPlaycount.setText(playcount);
                 mSubscriberCount.setText(subscribercount);
 
                 Log.d("USER_NAME", profileName);
-                getUserTopArtists();
-                getUserTopAlbums();
+
             }
 
             @Override
@@ -137,8 +143,8 @@ public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     public void getUserTopArtists () {
         LfmParameters pTopArtists = new LfmParameters();
-        pTopArtists.put("user", profileName);
-        pTopArtists.put("limit", "6");
+        pTopArtists.put("user", Session.username);
+        pTopArtists.put("limit", "3");
 
         LfmRequest TopArtistsRequest = LfmApi.user().getTopArtists(pTopArtists);
         TopArtistsRequest.executeWithListener(new LfmRequest.LfmRequestListener() {
@@ -164,6 +170,14 @@ public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     }
 
                     artistGridview.setAdapter(new GridViewAdapter(getContext(), mTopArtists));
+
+                    artistGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            artistInfoIntent.putExtra("EXTRA_ARTIST_NAME", mTopArtists.get(position).getName());
+                            startActivity(artistInfoIntent);
+                        }
+                    });
                 } else {
                     artistGridview.setVisibility(View.INVISIBLE);
                 }
@@ -178,7 +192,7 @@ public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     public void getUserTopAlbums () {
         LfmParameters pTopAlbums = new LfmParameters();
-        pTopAlbums.put("user", profileName);
+        pTopAlbums.put("user", Session.username);
         pTopAlbums.put("limit", "3");
 
         LfmRequest TopAlbumsRequest = LfmApi.user().getTopAlbums(pTopAlbums);
@@ -189,6 +203,10 @@ public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
                 if (albums.length() > 0) {
                     for (int i = 0; i < albums.length(); i++) {
+                        artistName = albums
+                                .optJSONObject(i)
+                                .optJSONObject("artist")
+                                .optString("name");
                         itemName = albums
                                 .optJSONObject(i)
                                 .optString("name");
@@ -201,10 +219,21 @@ public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRe
                                 .optJSONObject(i)
                                 .optString("playcount");
 
-                        mTopAlbums.add(new GridItem(itemName, artistPlaycount, ImageUrl));
+
+                        mTopAlbums.add(new GridItem(itemName, artistPlaycount, ImageUrl, artistName));
+
                     }
 
                     albumsGridView.setAdapter(new GridViewAdapter(getContext(), mTopAlbums));
+
+                    albumsGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            albumInfoIntent.putExtra("EXTRA_ALBUM_NAME", mTopAlbums.get(position).getName());
+                            albumInfoIntent.putExtra("EXTRA_ARTIST_NAME", mTopAlbums.get(position).getArtistName());
+                            startActivity(albumInfoIntent);
+                        }
+                    });
                 } else {
                     artistGridview.setVisibility(View.INVISIBLE);
                 }
