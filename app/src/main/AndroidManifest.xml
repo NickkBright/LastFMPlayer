@@ -29,7 +29,12 @@
         <activity android:name=".activities.PlayerActivity" />
         <activity android:name=".activities.FullGridViewActivity" />
         <activity android:name=".activities.ArtistInfoActivity" />
-        <activity android:name=".activities.AlbumInfoActivity"></activity>
+        <activity android:name=".activities.AlbumInfoActivity" />
+
+        <service
+            android:name=".services.MediaPlayerService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

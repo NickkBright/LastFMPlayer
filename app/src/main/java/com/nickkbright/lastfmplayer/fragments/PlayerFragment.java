@@ -1,14 +1,18 @@
 package com.nickkbright.lastfmplayer.fragments;
 
 import android.Manifest;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -26,6 +30,10 @@ import com.nickkbright.lastfmplayer.MainActivity;
 import com.nickkbright.lastfmplayer.R;
 import com.nickkbright.lastfmplayer.adapters.TrackListAdapter;
 import com.nickkbright.lastfmplayer.models.Audio;
+import com.nickkbright.lastfmplayer.services.MediaPlayerService;
+import com.nickkbright.lastfmplayer.utilities.CustomTouchListener;
+import com.nickkbright.lastfmplayer.utilities.StorageUtil;
+import com.nickkbright.lastfmplayer.utilities.onItemClickListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,10 +45,14 @@ import static android.os.Build.VERSION.SDK_INT;
 
 public class PlayerFragment extends Fragment {
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
+    public static final String Broadcast_PLAY_NEW_AUDIO = "com.nickkbright.lastfmplayer.PlayNewAudio";
     private ArrayList<Audio> mTrackList;
     public RecyclerView mRecyclerView;
     private View view;
     Context appContext = MainActivity.getContextOfApplication();
+    private MediaPlayerService player;
+    boolean serviceBound = false;
+    private int prevPlayingIndex = -1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,8 +100,47 @@ public class PlayerFragment extends Fragment {
             TrackListAdapter adapter = new TrackListAdapter(mTrackList);
             mRecyclerView.setAdapter(adapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            mRecyclerView.addOnItemTouchListener(new CustomTouchListener(getContext(), new onItemClickListener() {
+                @Override
+                public void onClick(View view, int index) {
+                    if (prevPlayingIndex != index) {
+                        playAudio(index);
+
+                        if (prevPlayingIndex != -1) {
+                            View pauseBtn = mRecyclerView.getChildAt(prevPlayingIndex).findViewById(R.id.pause_btn);
+                            View playBtn = mRecyclerView.getChildAt(prevPlayingIndex).findViewById(R.id.play_btn);
+                            pauseBtn.setVisibility(View.INVISIBLE);
+                            playBtn.setVisibility(View.VISIBLE);
+                        }
+
+                        View pauseBtn = mRecyclerView.getChildAt(index).findViewById(R.id.pause_btn);
+                        View playBtn = mRecyclerView.getChildAt(index).findViewById(R.id.play_btn);
+                        pauseBtn.setVisibility(View.VISIBLE);
+                        playBtn.setVisibility(View.INVISIBLE);
+
+                        prevPlayingIndex = index;
+                    } else {
+                        if (player.isPlaying()) {
+                            player.pausePlayer();
+
+                            View pauseBtn = mRecyclerView.getChildAt(index).findViewById(R.id.pause_btn);
+                            View playBtn = mRecyclerView.getChildAt(index).findViewById(R.id.play_btn);
+                            pauseBtn.setVisibility(View.INVISIBLE);
+                            playBtn.setVisibility(View.VISIBLE);
+                        } else {
+                            player.startPlayer();
+
+                            View pauseBtn = mRecyclerView.getChildAt(index).findViewById(R.id.pause_btn);
+                            View playBtn = mRecyclerView.getChildAt(index).findViewById(R.id.play_btn);
+                            pauseBtn.setVisibility(View.VISIBLE);
+                            playBtn.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                }
+            }));
         }
     }
+
 
     private boolean checkAndRequestPermissions() {
         if (SDK_INT >= Build.VERSION_CODES.M) {
@@ -171,4 +222,48 @@ public class PlayerFragment extends Fragment {
                 .show();
     }
 
+    public ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MediaPlayerService.LocalBinder binder = (MediaPlayerService.LocalBinder) service;
+            player = binder.getService();
+            serviceBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            serviceBound = false;
+        }
+    };
+
+
+    public void playAudio(int audioIndex) {
+        if (!serviceBound) {
+            StorageUtil storage = new StorageUtil(getActivity().getApplicationContext());
+            storage.storeAudio(mTrackList);
+            storage.storeAudioIndex(audioIndex);
+
+            Intent playerIntent = new Intent(getActivity(), MediaPlayerService.class);
+            getActivity().startService(playerIntent);
+            getActivity().bindService(playerIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+        } else {
+            StorageUtil storage = new StorageUtil(getActivity().getApplicationContext());
+            storage.storeAudioIndex(audioIndex);
+
+            Intent broadcastIntent = new Intent(Broadcast_PLAY_NEW_AUDIO);
+            getActivity().sendBroadcast(broadcastIntent);
+        }
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (serviceBound) {
+            getActivity().unbindService(serviceConnection);
+            player.stopSelf();
+        }
+    }
 }
+
+
