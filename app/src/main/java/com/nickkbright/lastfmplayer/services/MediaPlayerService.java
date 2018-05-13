@@ -31,12 +31,11 @@ import com.nickkbright.lastfmplayer.utilities.StorageUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 public class MediaPlayerService extends Service implements MediaPlayer.OnCompletionListener,
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnSeekCompleteListener,
-        MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener,
-
-        AudioManager.OnAudioFocusChangeListener {
+        MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener, AudioManager.OnAudioFocusChangeListener {
 
     public static final String ACTION_PLAY = "com.nickkbright.lastfmplayer.ACTION_PLAY";
     public static final String ACTION_PAUSE = "com.nickkbright.lastfmplayer.ACTION_PAUSE";
@@ -44,6 +43,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     public static final String ACTION_NEXT = "com.nickkbright.lastfmplayer.ACTION_NEXT";
     public static final String ACTION_STOP = "com.nickkbright.lastfmplayer.ACTION_STOP";
 
+    public NotificationCompat.Builder notificationBuilder;
     private MediaPlayer mediaPlayer;
 
     //MediaSession
@@ -76,12 +76,12 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
     public void startPlayer() {
         mediaPlayer.start();
-        updateMetaData();
+        buildNotification(PlaybackStatus.PLAYING);
     }
 
     public void pausePlayer() {
         mediaPlayer.pause();
-        updateMetaData();
+        buildNotification(PlaybackStatus.PAUSED);
     }
 
     public boolean isPlaying() {
@@ -536,6 +536,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
         int notificationAction = android.R.drawable.ic_media_pause;//needs to be initialized
         PendingIntent play_pauseAction = null;
+        Log.d("STATUS", playbackStatus.toString());
 
         //Build a new notification according to the current state of the MediaPlayer
         if (playbackStatus == PlaybackStatus.PLAYING) {
@@ -552,7 +553,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                 R.drawable.logo); //replace with your own image
 
         // Create a new Notification
-        NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
+        notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
                 // Hide the timestamp
                 .setShowWhen(false)
                 // Set the Notification style
@@ -570,6 +571,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                 .setContentText(activeAudio.getArtist())
                 .setContentTitle(activeAudio.getAlbum())
                 .setContentInfo(activeAudio.getTitle())
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setOngoing(true)
                 // Add playback actions
                 .addAction(android.R.drawable.ic_media_previous, "previous", playbackAction(3))
                 .addAction(notificationAction, "pause", play_pauseAction)

@@ -141,7 +141,6 @@ public class PlayerFragment extends Fragment {
         }
     }
 
-
     private boolean checkAndRequestPermissions() {
         if (SDK_INT >= Build.VERSION_CODES.M) {
             int permissionReadPhoneState = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_PHONE_STATE);
@@ -254,7 +253,6 @@ public class PlayerFragment extends Fragment {
             getActivity().sendBroadcast(broadcastIntent);
         }
     }
-
 
     @Override
     public void onDestroy() {
