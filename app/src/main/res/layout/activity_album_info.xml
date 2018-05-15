@@ -4,7 +4,7 @@
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkBackground"
+    android:background="@color/my_primaryDarkColor"
     android:fillViewport="true">
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             android:id="@+id/profile_photo_background"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            app:cardBackgroundColor="@color/darkBackground">
+            app:cardBackgroundColor="@color/my_primaryDarkColor">
 
 
             <ImageView
@@ -51,7 +51,7 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            app:cardBackgroundColor="@color/darkBackground">
+            app:cardBackgroundColor="@color/my_primaryDarkColor">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -83,7 +83,7 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:cardBackgroundColor="@color/darkBackground">
+            app:cardBackgroundColor="@color/my_primaryDarkColor">
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -10,7 +10,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/darkBackground"
+    android:background="@android:color/white"
     tools:context=".activities.LoginActivity">
 
 
@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/colorAccent"
-                app:cardBackgroundColor="@color/colorPrimaryDark"
+                app:cardBackgroundColor="@color/my_primaryDarkColor"
                 app:cardCornerRadius="25dp">
 
                 <RelativeLayout
@@ -52,7 +52,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentTop="true"
                         android:ems="10"
-                        android:fontFamily="monospace"
+                        android:fontFamily="@font/roboto_condensed_light"
                         android:hint="@string/username_hint"
                         android:inputType="textPersonName"
                         android:paddingLeft="20dp"
@@ -74,7 +74,7 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                app:cardBackgroundColor="@color/colorPrimaryDark"
+                app:cardBackgroundColor="@color/my_primaryDarkColor"
                 app:cardCornerRadius="25dp">
 
                 <RelativeLayout
@@ -88,7 +88,7 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
-                        android:fontFamily="monospace"
+                        android:fontFamily="@font/roboto_condensed_light"
                         android:hint="@string/password_hint"
                         android:inputType="textPassword"
                         android:maxLines="1"
@@ -110,7 +110,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="100dp"
-            app:cardBackgroundColor="@color/colorAccent"
+            app:cardBackgroundColor="@color/my_primaryDarkColor"
             app:cardCornerRadius="25dp">
 
             <RelativeLayout

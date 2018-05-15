@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/controls_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:elevation="2dp"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:background="@color/grey_100">
+
+    <!-- PLAYER_CONTROLS -->
+    <include layout="@layout/player_buttons" />
+
+    <!-- PLAYER SEEK TO BAR -->
+    <include layout="@layout/player_seek" />
+
+    <!-- PLAYING SONG INFO -->
+    <include layout="@layout/player_info" />
+
+    <!-- THE ANIMATED ARROW -->
+    <ImageButton
+        android:id="@+id/arrow_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/app_name"
+        android:onClick="expandPanel"
+        android:src="@drawable/ic_chevron_up" />
+</LinearLayout>

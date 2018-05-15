@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".LastFMPlayer"
@@ -16,7 +17,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/MainActivityTheme">
+        android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,15 +28,14 @@
         <activity
             android:name=".activities.LoginActivity"
             android:theme="@style/LoginActivityTheme" />
-        <activity android:name=".activities.PlayerActivity" />
         <activity android:name=".activities.FullGridViewActivity" />
         <activity android:name=".activities.ArtistInfoActivity" />
         <activity android:name=".activities.AlbumInfoActivity" />
 
-        <service
-            android:name=".services.MediaPlayerService"
-            android:enabled="true"
-            android:exported="true"></service>
+        <service android:name=".playback.MusicService" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

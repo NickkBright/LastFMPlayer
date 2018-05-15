@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        app:cardBackgroundColor="@color/darkBackground">
+        app:cardBackgroundColor="@color/my_primaryDarkColor">
 
         <LinearLayout
             android:layout_width="match_parent"

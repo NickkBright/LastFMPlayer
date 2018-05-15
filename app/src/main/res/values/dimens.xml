@@ -8,4 +8,7 @@
     <dimen name="bioText_padding">10dp</dimen>
     <dimen name="elementMargin">10dp</dimen>
     <dimen name="cellText_textSize">18sp</dimen>
+    <dimen name="notification_large_dim">256dp</dimen>
+    <dimen name="album_height">128dp</dimen>
+    <dimen name="album_width">96dp</dimen>
 </resources>

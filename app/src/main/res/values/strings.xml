@@ -3,8 +3,8 @@
     <string name="api_key">bf1339f13fde6ad395b4a9994d553176</string>
     <string name="secret">ac0625af359a9d45d2fdfc9db078664c</string>
     <!-- Strings related to login -->
-    <string name="username_hint">USERNAME</string>
-    <string name="password_hint">PASSWORD</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
     <string name="action_sign_in">Sign In</string>
     <string name="profile_tab">Profile</string>
     <string name="player_tab">Music</string>
@@ -22,4 +22,15 @@
     <string name="show_more">Show more...</string>
     <string name="plays">plays</string>
     <string name="track_info">Track info</string>
+    <string name="album">ALBUM</string>
+    <string name="unknown_year">Year unknown</string>
+    <string name="eq">Equalizer</string>
+    <string name="no_eq">No equalizer was found! :(</string>
+    <string name="bad_id">Play a song first! :P</string>
+    <string name="enjoy">Select a song :D</string>
+    <string name="playing_song" translatable="false">&lt;b>%1s&lt;/b> - %2s</string>
+    <string name="no_browser">No browser found :(</string>
+    <string name="perm_rationale">To let You play the music on your phone, Music Player GO needs access to your files</string>
+    <string name="error_no_music">No music on your phone</string>
+    <string name="settings">Options</string>
 </resources>

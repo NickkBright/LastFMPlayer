@@ -1,7 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="my_primaryColor">#e57373</color>
+    <color name="my_primaryLightColor">#ffa4a2</color>
+    <color name="my_primaryDarkColor">#af4448</color>
+    <color name="my_secondaryColor">#212121</color>
+    <color name="my_secondaryLightColor">#484848</color>
+    <color name="my_secondaryDarkColor">#000000</color>
+    <color name="my_primaryTextColor">#000000</color>
+    <color name="my_secondaryTextColor">#ffffff</color>
+
     <color name="colorPrimary">#af2c2e</color>
     <color name="colorPrimaryDark">#212d49</color>
     <color name="darkBackground">#1b1c28</color>
     <color name="colorAccent">#af2c2e</color>
+    <color name="black_panel">#050505</color>
+    <color name="a_black">#15000000</color>
+    <color name="grey_100">#F5F5F5</color>
+    <color name="grey_200">#EEEEEE</color>
+    <color name="grey_500">#9E9E9E</color>
+    <color name="grey_900">#212121</color>
+    <color name="grey_900_darker">#1E1E1E</color>
+    <color name="red_A400">#FF1744</color> <!-- DARK -->
+    <color name="pink_A400">#F50057</color> <!-- DARK -->
+    <color name="purple_A400">#D500F9</color> <!-- DARK -->
+    <color name="deep_purple_A400">#651FFF</color> <!-- DARK -->
+    <color name="indigo_A400">#3D5AFE</color> <!-- DARK -->
+    <color name="blue_A400">#2979FF</color> <!-- DARK -->
+    <color name="light_blue_A400">#00B0FF</color> <!-- LIGHT -->
+    <color name="cyan_A400">#00E5FF</color> <!-- LIGHT -->
+    <color name="teal_A400">#1DE9B6</color> <!-- LIGHT -->
+    <color name="green_A400">#00E676</color> <!-- LIGHT -->
+    <color name="amber_A400">#FFC400</color> <!-- LIGHT -->
+    <color name="orange_A400">#FF9100</color> <!-- LIGHT -->
+    <color name="deep_orange_A400">#FF3D00</color> <!-- DARK -->
 </resources>
