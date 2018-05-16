@@ -45,7 +45,10 @@ public class RecentTracksAdapter extends RecyclerView.Adapter<RecentTracksAdapte
     @Override
     public void onBindViewHolder(RecentTracksAdapter.ViewHolder holder, int position) {
         holder.mTrackInfo.setText(mTrackList.get(position).getTrackInfo());
-        holder.mDate.setText(mTrackList.get(position).getDate());
+        if (mTrackList.get(position).getDate().equals("-"))
+            holder.mDate.setText("NOW PLAYING");
+        else
+            holder.mDate.setText(mTrackList.get(position).getDate());
         new ImageLoadTask(mTrackList.get(position).getImageURL(), holder.mImageURL).execute();
     }
 
