@@ -46,9 +46,9 @@ public class GridViewAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = mInflaterCatalogListItems.inflate(R.layout.grid_item, null);
-            holder.sName = (TextView) convertView.findViewById(R.id.item_name);
-            holder.sPlaycount = (TextView) convertView.findViewById(R.id.item_playcount);
-            holder.sImageURL = (ImageView) convertView.findViewById(R.id.item_image);
+            holder.sName = convertView.findViewById(R.id.item_name);
+            holder.sPlaycount = convertView.findViewById(R.id.item_playcount);
+            holder.sImageURL = convertView.findViewById(R.id.item_image);
             convertView.setTag(holder);
 
         } else {
@@ -57,7 +57,7 @@ public class GridViewAdapter extends BaseAdapter {
 
         if (mGridItemData.get(position) != null) {
             holder.sName.setText(mGridItemData.get(position).getName());
-            holder.sPlaycount.setText(mGridItemData.get(position).getPlaycount());
+            holder.sPlaycount.setText(mGridItemData.get(position).getPlaycount()+" plays");
             Picasso.get().load(mGridItemData.get(position).getImageURL()).into(holder.sImageURL);
         }
 

@@ -38,7 +38,6 @@ import android.widget.Toast;
 
 import com.nickkbright.lastfmplayer.adapters.AlbumsAdapter;
 import com.nickkbright.lastfmplayer.adapters.ArtistsAdapter;
-import com.nickkbright.lastfmplayer.adapters.ColorsAdapter;
 import com.nickkbright.lastfmplayer.adapters.SongsAdapter;
 import com.nickkbright.lastfmplayer.fastscroller.FastScrollerRecyclerView;
 import com.nickkbright.lastfmplayer.fastscroller.FastScrollerView;
@@ -66,7 +65,6 @@ public class PlayerFragment
     implements
         LoaderManager.LoaderCallbacks,
         SongsAdapter.SongSelectedListener,
-        ColorsAdapter.AccentChangedListener,
         AlbumsAdapter.AlbumSelectedListener,
         ArtistsAdapter.ArtistSelectedListener {
 
@@ -82,7 +80,7 @@ public class PlayerFragment
     private LinearLayout mControlsContainer;
     private View mSettingsView;
     private SlidingUpPanelLayout mSlidingUpPanel;
-    private ImageButton mPlayPauseButton, mResetButton, mEqButton, mArrowUp, mThemeButton, mSkipNextButton, mSkipPrevButton;
+    private ImageButton mPlayPauseButton, mResetButton, mArrowUp, mSkipNextButton, mSkipPrevButton;
     private int mThemeContrast;
     private PlayerAdapter mPlayerAdapter;
     private boolean mUserIsSeeking = false;
@@ -114,7 +112,6 @@ public class PlayerFragment
     };
     private boolean mIsBound;
     private Parcelable savedRecyclerLayoutState;
-    private PopupWindow mSettingsPopup;
 
     @Override
     public void onPause() {
@@ -122,34 +119,10 @@ public class PlayerFragment
         if (mArtistsLayoutManager != null) {
             savedRecyclerLayoutState = mArtistsLayoutManager.onSaveInstanceState();
         }
-        if (mSettingsPopup != null && mSettingsPopup.isShowing()) {
-            mSettingsPopup.dismiss();
-        }
         if (mPlayerAdapter != null && mPlayerAdapter.isMediaPlayer()) {
             mPlayerAdapter.onPauseActivity();
         }
     }
-
-    @Override
-    public void onAccentChanged(int color) {
-        mMusicNotificationManager.setAccentColor(color);
-        if (mPlayerAdapter.isMediaPlayer()) {
-            mMusicNotificationManager.getNotificationManager().notify(MusicNotificationManager.NOTIFICATION_ID, mMusicNotificationManager.createNotification());
-        }
-        SettingsUtils.setThemeAccent(getActivity(), color);
-    }
-
-//    @Override
-//    public void onBackPressed() {
-//        //if the sliding up panel is expanded collapse it
-//        if (mSlidingUpPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
-//            mSlidingUpPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-//        } else if (mSettingsPopup.isShowing()) {
-//            mSettingsPopup.dismiss();
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
 
     private void checkReadStoragePermissions() {
         if (AndroidVersion.isMarshmallow()) {
@@ -190,8 +163,6 @@ public class PlayerFragment
         mSlidingUpPanel.setSlidingUpPanel(mSongsRecyclerView, mArtistsRecyclerView, mArrowUp);
         mSlidingUpPanel.setGravity(Gravity.BOTTOM);
 
-        initializeSettings();
-
         setSlidingUpPanelHeight();
 
         initializeSeekBar();
@@ -225,9 +196,6 @@ public class PlayerFragment
         mSongsRecyclerView = view.findViewById(R.id.songs_rv);
 
         mSettingsView = View.inflate(getContext(), R.layout.settings_popup, null);
-
-        mEqButton = mSettingsView.findViewById(R.id.eq);
-//        mThemeButton = mSettingsView.findViewById(R.id.theme_button);
 
         mArrowUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,43 +240,6 @@ public class PlayerFragment
         });
     }
 
-    private void initializeSettings() {
-        if (!EqualizerUtils.hasEqualizer(getContext())) {
-            mControlsContainer.removeView(mEqButton);
-        }
-
-//        initializeColorsSettings();
-
-        mSettingsPopup = new PopupWindow(mSettingsView, LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT, true); // Creation of popup
-        mSettingsPopup.setOutsideTouchable(true);
-        mSettingsPopup.setElevation(6);
-
-//        if (mThemeContrast != SettingsUtils.THEME_NIGHT) {
-//            mThemeButton.setOnLongClickListener(new View.OnLongClickListener() {
-//                @Override
-//                public boolean onLongClick(View v) {
-////                    SettingsUtils.setNightTheme(GoPlayerFragment.this);
-//                    return false;
-//                }
-//            });
-//        }
-    }
-
-    public void showSettingsPopup(View v) {
-
-        mSettingsPopup.setAnimationStyle(android.R.style.Animation_Translucent);
-        mSettingsPopup.setOutsideTouchable(true);
-        if (!mSettingsPopup.isShowing()) {
-            mSettingsPopup.showAtLocation(mSettingsView, Gravity.CENTER, 0, 0);
-        }
-    }
-
-    public void closeSettingsPopup(View v) {
-        if (mSettingsPopup.isShowing()) {
-            mSettingsPopup.dismiss();
-        }
-    }
 
     private void setScrollerIfRecyclerViewScrollable() {
 
@@ -401,20 +332,7 @@ public class PlayerFragment
         }
     }
 
-    public void openEqualizer(View v) {
-        if (checkIsPlayer()) {
-            mPlayerAdapter.openEqualizer(getActivity());
-        }
-    }
 
-    public void openGitPage(View v) {
-        try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/enricocid/Music-Player-GO")));
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(getContext(), getString(R.string.no_browser), Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-    }
 
     public void expandPanel(View v) {
         SlidingUpPanelLayout.PanelState panelState = mSlidingUpPanel.getPanelState() != SlidingUpPanelLayout.PanelState.EXPANDED ? SlidingUpPanelLayout.PanelState.EXPANDED : SlidingUpPanelLayout.PanelState.COLLAPSED;
@@ -430,22 +348,6 @@ public class PlayerFragment
         return isPlayer;
     }
 
-    public void switchTheme(View v) {
-        //avoid service killing when the player is in paused state
-        if (mPlayerAdapter != null && mPlayerAdapter.getState() == PlaybackInfoListener.State.PAUSED) {
-            mMusicService.startForeground(MusicNotificationManager.NOTIFICATION_ID, mMusicService.getMusicNotificationManager().createNotification());
-            mMusicService.setRestoredFromPause(true);
-        }
-        SettingsUtils.setTheme(getActivity());
-    }
-
-    private void initializeColorsSettings() {
-
-        RecyclerView colorsRecyclerView = mSettingsView.findViewById(R.id.colors_rv);
-        LinearLayoutManager linearLayoutManager = new GridLayoutManager(getContext(), 5);
-        colorsRecyclerView.setLayoutManager(linearLayoutManager);
-        colorsRecyclerView.setAdapter(new ColorsAdapter(getActivity(), mAccent));
-    }
 
     private void onPermissionGranted() {
         getActivity().getSupportLoaderManager().initLoader(ArtistProvider.ARTISTS_LOADER, null, this);

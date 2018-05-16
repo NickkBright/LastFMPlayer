@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:singleLine="true"
-                android:background="@color/darkBackground"
+                android:background="@color/my_primaryDarkColor"
                 android:paddingTop="@dimen/cellText_padding"
                 android:textAlignment="center"
                 android:textAllCaps="true"
@@ -48,7 +48,7 @@
                     android:id="@+id/item_playcount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/darkBackground"
+                    android:background="@color/my_primaryDarkColor"
                     android:paddingLeft="@dimen/cellText_padding"
                     android:paddingRight="@dimen/cellText_padding"
                     android:layout_marginLeft="25dp"
@@ -56,15 +56,6 @@
                     android:textColor="@android:color/white"
                     android:textStyle="italic" />
 
-                <TextView
-                    android:id="@+id/plays"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/cellText_padding"
-                    android:paddingRight="@dimen/cellText_padding"
-                    android:text="@string/plays"
-                    android:textColor="@android:color/white"
-                    android:textStyle="italic" />
             </LinearLayout>
         </LinearLayout>
 

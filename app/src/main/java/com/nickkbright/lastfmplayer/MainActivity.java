@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        tabLayout = (TabLayout)findViewById(R.id.tab_layout);
-        viewPager = (ViewPager)findViewById(R.id.view_pager);
+        tabLayout = findViewById(R.id.tab_layout);
+        viewPager = findViewById(R.id.view_pager);
         contextOfApplication = getApplicationContext();
 
         tabsAdapter = new TabsAdapter(getSupportFragmentManager(), tabLayout.getTabCount());

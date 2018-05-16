@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ag.lfm.Lfm;
 import com.ag.lfm.LfmError;
 import com.ag.lfm.LfmParameters;
 import com.ag.lfm.LfmRequest;
@@ -25,8 +28,12 @@ import com.nickkbright.lastfmplayer.R;
 import com.nickkbright.lastfmplayer.activities.AlbumInfoActivity;
 import com.nickkbright.lastfmplayer.activities.ArtistInfoActivity;
 import com.nickkbright.lastfmplayer.activities.FullGridViewActivity;
+import com.nickkbright.lastfmplayer.activities.LoginActivity;
 import com.nickkbright.lastfmplayer.adapters.GridViewAdapter;
+import com.nickkbright.lastfmplayer.adapters.RecentTracksAdapter;
+import com.nickkbright.lastfmplayer.loaders.ImageLoadTask;
 import com.nickkbright.lastfmplayer.models.GridItem;
+import com.nickkbright.lastfmplayer.models.RecentTrack;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -38,7 +45,14 @@ import java.util.ArrayList;
 public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private ArrayList<GridItem> mTopArtists = new ArrayList<>();
     private ArrayList<GridItem> mTopAlbums = new ArrayList<>();
+    private ArrayList<RecentTrack> mRecentTracks = new ArrayList<>();
     private ImageView mProfileImage;
+    private String trackAlbumCoverURL;
+    private String trackName;
+    private String trackArtist;
+    private String trackInfo;
+    private String trackDate;
+    private String trackImageURL;
     private String profileImageUrl;
     private String itemName;
     private String ImageUrl;
@@ -50,10 +64,12 @@ public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private TextView mPlaycount;
     private TextView mSubscriberCount;
     private TextView mUsername;
+    private JSONArray tracks;
     private JSONArray artists;
     private JSONArray albums;
     private GridView artistGridview;
     private GridView albumsGridView;
+    private RecyclerView tracksRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private final Intent showMoreIntent = new Intent(MainActivity.getContextOfApplication(), FullGridViewActivity.class);
@@ -65,21 +81,34 @@ public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRe
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-        artistGridview = (GridView) view.findViewById(R.id.artist_grid_view);
-        albumsGridView = (GridView) view.findViewById(R.id.albums_grid_view);
-
-        Button mShowMoreArtists = (Button) view.findViewById(R.id.show_all_artists);
-        Button mShowMoreAlbums = (Button) view.findViewById(R.id.show_all_albums);
+        tracksRecyclerView = view.findViewById(R.id.recent_tracks_rview);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        tracksRecyclerView.setLayoutManager(layoutManager);
+        mSwipeRefreshLayout =  view.findViewById(R.id.swipe_container);
+        artistGridview = view.findViewById(R.id.artist_grid_view);
+        albumsGridView = view.findViewById(R.id.albums_grid_view);
+        Button mLogout = view.findViewById(R.id.logout_btn);
+        Button mShowMoreArtists = view.findViewById(R.id.show_all_artists);
+        Button mShowMoreAlbums = view.findViewById(R.id.show_all_albums);
         artistGridview.setVerticalScrollBarEnabled(false);
         albumsGridView.setVerticalScrollBarEnabled(false);
-        mProfileImage = (ImageView) view.findViewById(R.id.profile_image);
-        mUsername = (TextView) view.findViewById(R.id.user_profile_name);
-        mPlaycount = (TextView) view.findViewById(R.id.playcount);
-        mSubscriberCount = (TextView) view.findViewById(R.id.artistcount);
+        mProfileImage = view.findViewById(R.id.profile_image);
+        mUsername = view.findViewById(R.id.user_profile_name);
+        mPlaycount = view.findViewById(R.id.playcount);
+        mSubscriberCount = view.findViewById(R.id.artistcount);
 
+        mLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Lfm.logout();
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
 
         getUserInfo();
+        getUserRecentTracks();
         getUserTopArtists();
         getUserTopAlbums();
         mShowMoreArtists.setOnClickListener(new View.OnClickListener() {
@@ -246,9 +275,83 @@ public class ProfileFragment extends Fragment implements SwipeRefreshLayout.OnRe
         });
 
     }
+    public void getUserRecentTracks() {
+        LfmParameters pRecentTracks = new LfmParameters();
+        pRecentTracks.put("user", Session.username);
+        pRecentTracks.put("limit", "5");
+
+        LfmRequest RecentTracksRequest = LfmApi.user().getRecentTracks(pRecentTracks);
+        RecentTracksRequest.executeWithListener(new LfmRequest.LfmRequestListener() {
+            @Override
+            public void onComplete(JSONObject response) {
+                tracks = response.optJSONObject("recenttracks").optJSONArray("track");
+                for (int i = 0; i < tracks.length(); i++) {
+                    trackName = tracks
+                            .optJSONObject(i)
+                            .optString("name");
+                    trackArtist = tracks
+                            .optJSONObject(i)
+                            .optJSONObject("artist")
+                            .optString("#text");
+                    trackDate = tracks
+                            .optJSONObject(i)
+                            .optString("date");
+                    int index = trackDate.indexOf("#text");
+                    trackDate = index != -1 ? trackDate.substring(index + 9, index + 26) : "-";
+                    trackInfo = trackName + " - " + trackArtist;
+                    getTrackAlbumCover(trackArtist, trackName, trackInfo, trackDate);
+                }
+            }
+
+            @Override
+            public void onError(LfmError error) {
+
+            }
+        });
+    }
+
+    public void getTrackAlbumCover(String artistName, final String trackName, final String trackInfo, final String trackDate) {
+        LfmParameters pTrackCover = new LfmParameters();
+        pTrackCover.put("track", trackName);
+        pTrackCover.put("artist", artistName);
+
+        LfmRequest TrackCoverRequest = LfmApi.track().getInfo(pTrackCover);
+        TrackCoverRequest.executeWithListener(new LfmRequest.LfmRequestListener() {
+            @Override
+            public void onComplete(JSONObject response) {
+                JSONObject temp = response
+                        .optJSONObject("track");
+                if (temp.optJSONObject("album") != null) {
+                    temp = temp
+                            .optJSONObject("album")
+                            .optJSONArray("image")
+                            .optJSONObject(2);
+                    trackAlbumCoverURL = temp.optString("#text");
+                } else {
+                    trackAlbumCoverURL = "-";
+                }
+
+
+                mRecentTracks.add(new RecentTrack(trackInfo, trackDate, trackAlbumCoverURL));
+                Log.d("IMAGE", trackAlbumCoverURL);
+                tracksRecyclerView.setAdapter(new RecentTracksAdapter(mRecentTracks));
+            }
+
+            @Override
+            public void onError(LfmError error) {
+
+            }
+        });
+    }
 
     @Override
     public void onRefresh() {
         mSwipeRefreshLayout.setRefreshing(false);
+
+        mRecentTracks.clear();
+        getUserInfo();
+        getUserRecentTracks();
+        getUserTopArtists();
+        getUserTopAlbums();
     }
 }

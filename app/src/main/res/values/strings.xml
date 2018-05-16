@@ -8,8 +8,9 @@
     <string name="action_sign_in">Sign In</string>
     <string name="profile_tab">Profile</string>
     <string name="player_tab">Music</string>
-
+    <string name="logout">LOG OUT</string>
     <string name="playcount">SCROBBLES</string>
+    <string name="recent_tracks">RECENT TRACKS</string>
     <string name="toolbar_info">INFO</string>
     <string name="albums">ALBUMS</string>
     <string name="biography">BIOGRAPHY</string>
@@ -25,12 +26,11 @@
     <string name="album">ALBUM</string>
     <string name="unknown_year">Year unknown</string>
     <string name="eq">Equalizer</string>
-    <string name="no_eq">No equalizer was found! :(</string>
-    <string name="bad_id">Play a song first! :P</string>
-    <string name="enjoy">Select a song :D</string>
+    <string name="no_eq">No equalizer was found!</string>
+    <string name="bad_id">Play a song first!</string>
+    <string name="enjoy">Select a song</string>
     <string name="playing_song" translatable="false">&lt;b>%1s&lt;/b> - %2s</string>
-    <string name="no_browser">No browser found :(</string>
-    <string name="perm_rationale">To let You play the music on your phone, Music Player GO needs access to your files</string>
+    <string name="perm_rationale">LastFM Player needs access to your files</string>
     <string name="error_no_music">No music on your phone</string>
     <string name="settings">Options</string>
 </resources>

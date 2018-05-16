@@ -25,9 +25,6 @@ import com.nickkbright.lastfmplayer.models.Song;
 
 import java.util.List;
 
-/**
- * Allows {@link GoPlayerActivity} to control media playback of {@link MediaPlayerHolder}.
- */
 public interface PlayerAdapter {
 
     void initMediaPlayer();
