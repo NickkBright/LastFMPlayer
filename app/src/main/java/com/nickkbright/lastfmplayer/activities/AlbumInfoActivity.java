@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -53,7 +54,7 @@ public class AlbumInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_album_info);
 
 
-        mToolbar = (Toolbar) findViewById(R.id.info_toolbar);
+        mToolbar = findViewById(R.id.info_toolbar);
         setSupportActionBar(mToolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -61,18 +62,16 @@ public class AlbumInfoActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_tracklist);
+        mRecyclerView = findViewById(R.id.recyclerview_tracklist);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);
-        mArtwork = (ImageView) findViewById(R.id.info_main_image);
-        mArtistName = (TextView) findViewById(R.id.album_artist_name);
-        mTitle = (TextView) findViewById(R.id.album_name);
-        mPlaycount = (TextView) findViewById(R.id.playcount_info_album);
-        mListeners = (TextView) findViewById(R.id.listenerscount_album);
+        mArtwork = findViewById(R.id.info_main_image);
+        mArtistName = findViewById(R.id.album_artist_name);
+        mTitle =  findViewById(R.id.album_name);
+        mPlaycount = findViewById(R.id.playcount_info_album);
+        mListeners = findViewById(R.id.listenerscount_album);
         albumName = getIntent().getStringExtra("EXTRA_ALBUM_NAME");
-        Log.d ("album name", albumName);
         artistName = getIntent().getStringExtra("EXTRA_ARTIST_NAME");
-        Log.d ("artist name", artistName);
         mTitle.setText(albumName);
         mArtistName.setText(artistName);
 
@@ -117,8 +116,11 @@ public class AlbumInfoActivity extends AppCompatActivity {
                 mPlaycount.setText(albumPlaycount);
                 mListeners.setText(listenersCount);
                 Picasso.get().load(ImageURL).into(mArtwork);
-
+                ViewGroup.LayoutParams params=mRecyclerView.getLayoutParams();
+                params.height=600;
+                mRecyclerView.setLayoutParams(params);
                 mRecyclerView.setAdapter(new LfmTracksAdapter(getApplicationContext(), mTracklist));
+
             }
 
             @Override

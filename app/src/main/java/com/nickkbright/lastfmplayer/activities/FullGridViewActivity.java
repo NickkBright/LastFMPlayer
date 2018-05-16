@@ -1,7 +1,5 @@
 package com.nickkbright.lastfmplayer.activities;
 
-
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,12 +44,13 @@ public class FullGridViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_grid_view);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbarTitle = (TextView) findViewById(R.id.toolbar_title);
-        mGridView = (GridView) findViewById(R.id.item_grid_view);
+        mToolbar = findViewById(R.id.toolbar);
+        mToolbarTitle = findViewById(R.id.toolbar_title);
+        mGridView = findViewById(R.id.item_grid_view);
         mGridView.setVerticalScrollBarEnabled(true);
         setSupportActionBar(mToolbar);
         albumInfoIntent = new Intent(this, AlbumInfoActivity.class);
+        artistInfoIntent = new Intent(this, ArtistInfoActivity.class);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -102,6 +101,13 @@ public class FullGridViewActivity extends AppCompatActivity {
                     }
 
                     mGridView.setAdapter(new GridViewAdapter(getApplicationContext(), mTopArtists));
+                    mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                            artistInfoIntent.putExtra("EXTRA_ARTIST_NAME", mTopArtists.get(position).getName());
+                            startActivity(artistInfoIntent);
+                        }
+                    });
                 } else {
                     mGridView.setVisibility(View.INVISIBLE);
                 }

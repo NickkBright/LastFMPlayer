@@ -1,5 +1,7 @@
 package com.nickkbright.lastfmplayer.models;
 
+import android.widget.GridView;
+
 public class GridItem {
     private String name;
     private String artistName;
@@ -50,6 +52,11 @@ public class GridItem {
         super();
         this.name = name;
         this.playcount = playcount;
+        this.imageURL = imageURL;
+    }
+    public GridItem(String name, String imageURL) {
+        super();
+        this.name = name;
         this.imageURL = imageURL;
     }
 }

@@ -21,7 +21,7 @@
         android:contentDescription="@string/app_name"
         android:foreground="@drawable/ripple"
         android:padding="8dp"
-        android:src="@drawable/ic_skip_previous" />
+        android:src="@drawable/ic_skip_previous_notification" />
 
     <ImageButton
         android:id="@+id/play_pause"
@@ -34,11 +34,12 @@
 
     <ImageButton
         android:id="@+id/skip_next"
+        style="@android:style/Widget.Material.ImageButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:contentDescription="@string/app_name"
         android:foreground="@drawable/ripple"
         android:padding="8dp"
-        android:src="@drawable/ic_skip_next" />
+        android:src="@drawable/ic_skip_next_notification" />
 </LinearLayout>

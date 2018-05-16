@@ -28,18 +28,17 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mUsername = (EditText) findViewById(R.id.username);
-        mPassword = (EditText) findViewById(R.id.password);
-        mLoading = (ProgressBar) findViewById(R.id.loading);
+        mUsername = findViewById(R.id.username);
+        mPassword = findViewById(R.id.password);
+        mLoading = findViewById(R.id.loading);
 
 
-        mSignIn = (Button) findViewById(R.id.signInBtn);
+        mSignIn = findViewById(R.id.signInBtn);
         mSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(mUsername.getText() !=null && mPassword.getText()!=null){
                     mLoading.setVisibility(View.VISIBLE);
-                    //User sign in.
                     Lfm.login(mUsername.getText().toString(), mPassword.getText().toString(), new Lfm.LfmCallback<Session>() {
                         @Override
                         public void onResult(Session result) {

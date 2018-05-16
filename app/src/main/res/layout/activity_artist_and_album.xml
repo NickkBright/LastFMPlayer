@@ -30,24 +30,18 @@
                 </android.support.v7.widget.Toolbar>
 
 
-
                 <android.support.v7.widget.CardView
                     android:id="@+id/profile_photo_background"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp">
+                    android:layout_height="300dp">
+
                     <ImageView
-                        android:src="@drawable/header_background"
+                        android:id="@+id/info_main_image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="centerCrop"/>
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/header_background" />
 
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/info_main_image"
-                        android:layout_width="200dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:src="@drawable/default_profile_pic" />
 
                 </android.support.v7.widget.CardView>
 
@@ -57,7 +51,7 @@
                     app:cardBackgroundColor="@color/my_primaryDarkColor">
 
                     <TextView
-                        android:id="@+id/item_info_name"
+                        android:id="@+id/artist_info_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
@@ -157,14 +151,13 @@
                     android:textStyle="bold" />
 
 
-
                 <GridView
-                    android:id="@+id/artists_grid_view"
+                    android:id="@+id/top_albums"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:focusable="true"
-                    android:numColumns="3"/>
+                    android:numColumns="3" />
 
                 <TextView
                     android:id="@+id/similar_artists_header"
@@ -178,7 +171,7 @@
                     android:textStyle="bold" />
 
                 <GridView
-                    android:id="@+id/albums_grid_view"
+                    android:id="@+id/similar_artists"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
