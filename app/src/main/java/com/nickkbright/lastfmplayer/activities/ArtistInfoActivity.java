@@ -79,8 +79,8 @@ public class ArtistInfoActivity extends AppCompatActivity {
         artistName = getIntent().getStringExtra("EXTRA_ARTIST_NAME");
         mArtistName.setText(artistName);
         getArtistInfo(artistName);
-        getArtistTopAlbums(artistName);
-        getSimilarArtists(artistName);
+        getArtistTopAlbums();
+        getSimilarArtists();
     }
 
     public void getArtistInfo (String artistName) {
@@ -126,7 +126,7 @@ public class ArtistInfoActivity extends AppCompatActivity {
 
     }
 
-    public void getArtistTopAlbums (String artistName) {
+    public void getArtistTopAlbums () {
         LfmParameters pArtist = new LfmParameters();
         pArtist.put("artist", artistName);
         pArtist.put("limit", "3");
@@ -162,7 +162,7 @@ public class ArtistInfoActivity extends AppCompatActivity {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                             albumInfoIntent.putExtra("EXTRA_ALBUM_NAME", mTopAlbums.get(position).getName());
-                            albumInfoIntent.putExtra("EXTRA_ARTIST_NAME", mTopAlbums.get(position).getArtistName());
+                            albumInfoIntent.putExtra("EXTRA_ARTIST_NAME", artistName);
                             startActivity(albumInfoIntent);
                         }
                     });
@@ -179,7 +179,7 @@ public class ArtistInfoActivity extends AppCompatActivity {
 
     }
 
-    public void getSimilarArtists (String artistName) {
+    public void getSimilarArtists () {
         LfmParameters pTopArtists = new LfmParameters();
         pTopArtists.put("artist", artistName);
         pTopArtists.put("limit", "3");

@@ -27,10 +27,10 @@ import com.nickkbright.lastfmplayer.utilities.AndroidVersion;
 public class MusicNotificationManager {
 
     public static final int NOTIFICATION_ID = 101;
-    static final String PLAY_PAUSE_ACTION = "com.iven.musicplayergo.PLAYPAUSE";
-    static final String NEXT_ACTION = "com.iven.musicplayergo.NEXT";
-    static final String PREV_ACTION = "com.iven.musicplayergo.PREV";
-    private final String CHANNEL_ID = "com.iven.musicplayergo.CHANNEL_ID";
+    static final String PLAY_PAUSE_ACTION = "com.nickkbright.lastfmplayer.PLAYPAUSE";
+    static final String NEXT_ACTION = "com.nickkbright.lastfmplayer.NEXT";
+    static final String PREV_ACTION = "com.nickkbright.lastfmplayer.PREV";
+    private final String CHANNEL_ID = "com.nickkbright.lastfmplayer.CHANNEL_ID";
     private final int REQUEST_CODE = 100;
     private final NotificationManager mNotificationManager;
     private final MusicService mMusicService;

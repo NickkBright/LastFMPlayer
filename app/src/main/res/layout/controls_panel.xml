@@ -7,7 +7,7 @@
     android:elevation="2dp"
     android:focusable="true"
     android:orientation="vertical"
-    android:background="@color/grey_100">
+    android:background="@color/my_primaryColor">
 
     <!-- PLAYER_CONTROLS -->
     <include layout="@layout/player_buttons" />
@@ -24,7 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:background="@color/my_primaryColor"
         android:contentDescription="@string/app_name"
         android:onClick="expandPanel"
-        android:src="@drawable/ic_chevron_up" />
+        android:src="@drawable/music_notification" />
 </LinearLayout>

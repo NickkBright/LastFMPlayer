@@ -78,7 +78,6 @@ public class PlayerFragment
     private TextView mPlayingAlbum, mPlayingSong, mDuration, mSongPosition, mArtistAlbumCount, mSelectedAlbum;
     private SeekBar mSeekBarAudio;
     private LinearLayout mControlsContainer;
-    private View mSettingsView;
     private SlidingUpPanelLayout mSlidingUpPanel;
     private ImageButton mPlayPauseButton, mResetButton, mArrowUp, mSkipNextButton, mSkipPrevButton;
     private int mThemeContrast;

@@ -9,6 +9,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="@color/my_primaryDarkColor"
         android:contentDescription="@string/app_name"
         android:padding="8dp"
         android:src="@drawable/ic_repeat" />
@@ -18,6 +19,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="@color/my_primaryDarkColor"
         android:contentDescription="@string/app_name"
         android:foreground="@drawable/ripple"
         android:padding="8dp"
@@ -28,6 +30,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="@color/my_primaryDarkColor"
         android:contentDescription="@string/app_name"
         android:padding="8dp"
         android:src="@drawable/ic_play" />
@@ -38,6 +41,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="@color/my_primaryDarkColor"
         android:contentDescription="@string/app_name"
         android:foreground="@drawable/ripple"
         android:padding="8dp"

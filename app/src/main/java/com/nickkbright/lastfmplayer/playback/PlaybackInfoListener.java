@@ -22,11 +22,6 @@ import android.support.annotation.IntDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-
-/**
- * Allows {@link MediaPlayerHolder} to report media playback duration and progress updates to
- * the {@link GoPlayerActivity}.
- */
 public abstract class PlaybackInfoListener {
 
     public void onPositionChanged(int position) {

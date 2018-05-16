@@ -22,22 +22,22 @@
     </style>
 
     <style name="AppThemeIndigo" parent="AppTheme">
-        <item name="accent_color">@color/indigo_A400</item>
+        <item name="accent_color">@color/my_primaryColor</item>
         <item name="android:seekBarStyle">@style/SeekBarStyle</item>
     </style>
 
     <style name="AppThemeBlue" parent="AppTheme">
-        <item name="accent_color">@color/blue_A400</item>
+        <item name="accent_color">@color/my_primaryColor</item>
         <item name="android:seekBarStyle">@style/SeekBarStyle</item>
     </style>
 
     <style name="AppThemeLightBlue" parent="AppTheme">
-        <item name="accent_color">@color/light_blue_A400</item>
+        <item name="accent_color">@color/my_primaryColor</item>
         <item name="android:seekBarStyle">@style/SeekBarStyle</item>
     </style>
 
     <style name="AppThemeCyan" parent="AppTheme">
-        <item name="accent_color">@color/cyan_A400</item>
+        <item name="accent_color">@color/my_primaryColor</item>
         <item name="android:seekBarStyle">@style/SeekBarStyle</item>
     </style>
 

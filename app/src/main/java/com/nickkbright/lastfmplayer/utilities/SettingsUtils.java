@@ -118,7 +118,7 @@ public class SettingsUtils {
                 break;
 
             default:
-            case R.color.light_blue_A400:
+            case R.color.my_primaryColor:
                 selectedTheme = isThemeNight ? R.style.AppThemeLightBlueNight : isThemeDark ? R.style.AppThemeLightBlueDark : R.style.AppThemeLightBlue;
                 break;
 

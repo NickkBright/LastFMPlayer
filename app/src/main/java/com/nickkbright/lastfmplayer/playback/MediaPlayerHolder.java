@@ -22,14 +22,9 @@ import java.util.concurrent.TimeUnit;
 
 import static android.content.Context.AUDIO_SERVICE;
 
-/**
- * Exposes the functionality of the {@link MediaPlayer} and implements the {@link PlayerAdapter}
- * so that {@link GoPlayerActivity} can control music playback.
- */
+
 public final class MediaPlayerHolder implements PlayerAdapter, MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener {
 
-    // The volume we set the media player to when we lose audio focus, but are
-    // allowed to reduce the volume instead of stopping playback.
     private static final float VOLUME_DUCK = 0.2f;
     // The volume we set the media player when we have audio focus.
     private static final float VOLUME_NORMAL = 1.0f;
@@ -285,13 +280,6 @@ public final class MediaPlayerHolder implements PlayerAdapter, MediaPlayer.OnCom
         }
     }
 
-    /**
-     * Once the {@link MediaPlayer} is released, it can't be used again, and another one has to be
-     * created. In the onStop() method of the {@link GoPlayerActivity} the {@link MediaPlayer} is
-     * released. Then in the onStart() of the {@link GoPlayerActivity} a new {@link MediaPlayer}
-     * object has to be created. That's why this method is private, and called by load(int) and
-     * not the constructor.
-     */
     @Override
     public void initMediaPlayer() {
 
