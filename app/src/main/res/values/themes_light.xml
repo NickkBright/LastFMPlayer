@@ -26,8 +26,8 @@
         <item name="android:seekBarStyle">@style/SeekBarStyle</item>
     </style>
 
-    <style name="AppThemeBlue" parent="AppTheme">
-        <item name="accent_color">@color/my_primaryColor</item>
+    <style name="AppThemePaleRed" parent="AppTheme">
+        <item name="accent_color">@color/my_primaryDarkColor</item>
         <item name="android:seekBarStyle">@style/SeekBarStyle</item>
     </style>
 

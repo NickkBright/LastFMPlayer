@@ -12,7 +12,7 @@
         android:background="@color/my_primaryDarkColor"
         android:contentDescription="@string/app_name"
         android:padding="8dp"
-        android:src="@drawable/ic_repeat" />
+        android:src="@drawable/ic_repeat_black_24dp" />
 
     <ImageButton
         android:id="@+id/skip_prev"

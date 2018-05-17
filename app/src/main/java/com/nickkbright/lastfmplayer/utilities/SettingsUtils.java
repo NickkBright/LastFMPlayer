@@ -16,16 +16,8 @@ public class SettingsUtils {
     public static final int THEME_LIGHT = 0;
     private static final int THEME_DARK = 1;
     public static final int THEME_NIGHT = 2;
-    private static final String ACCENT_PREF = "com.iven.musicplayergo.pref_accent";
-    private static final String ACCENT_VALUE = "com.iven.musicplayergo.pref_accent_value";
     private static final String THEME_PREF = "com.iven.musicplayergo.pref_theme";
     private static final String THEME_VALUE = "com.iven.musicplayergo.pref_theme_value";
-
-    public static void setNightTheme(Fragment activity) {
-        SharedPreferences preferences = activity.getActivity().getSharedPreferences(THEME_PREF, Context.MODE_PRIVATE);
-        preferences.edit().putInt(THEME_VALUE, THEME_NIGHT).apply();
-        activity.getActivity().recreate();
-    }
 
     public static void setTheme(Activity activity) {
         int contrast = getContrast(activity);
@@ -74,16 +66,6 @@ public class SettingsUtils {
         return contrast == THEME_NIGHT;
     }
 
-    public static void setThemeAccent(Activity activity, int accent) {
-        SharedPreferences preferences = activity.getSharedPreferences(ACCENT_PREF, Context.MODE_PRIVATE);
-        preferences.edit().putInt(ACCENT_VALUE, accent).apply();
-        activity.recreate();
-    }
-
-    public static int getAccent(Activity activity) {
-        return activity.getSharedPreferences(ACCENT_PREF, Context.MODE_PRIVATE).getInt(ACCENT_VALUE, R.color.grey_100);
-    }
-
     //get theme
     private static int resolveTheme(int contrast, int accent) {
 
@@ -113,13 +95,10 @@ public class SettingsUtils {
                 selectedTheme = isThemeNight ? R.style.AppThemeIndigoNight : isThemeDark ? R.style.AppThemeIndigoDark : R.style.AppThemeIndigo;
                 break;
 
-            case R.color.blue_A400:
-                selectedTheme = isThemeNight ? R.style.AppThemeBlueNight : isThemeDark ? R.style.AppThemeBlueDark : R.style.AppThemeBlue;
-                break;
 
             default:
-            case R.color.my_primaryColor:
-                selectedTheme = isThemeNight ? R.style.AppThemeLightBlueNight : isThemeDark ? R.style.AppThemeLightBlueDark : R.style.AppThemeLightBlue;
+            case R.color.my_primaryDarkColor:
+                selectedTheme = isThemeNight ? R.style.AppThemeLightBlueNight : isThemeDark ? R.style.AppThemeLightBlueDark : R.style.AppThemePaleRed;
                 break;
 
             case R.color.cyan_A400:

@@ -152,7 +152,7 @@ public class PlayerFragment
         View view = inflater.inflate(R.layout.player_fragment, container, false);
 
         mThemeContrast = SettingsUtils.getContrast(getActivity());
-        mAccent = SettingsUtils.getAccent(getActivity());
+        mAccent = R.color.my_primaryDarkColor;
 
         SettingsUtils.retrieveTheme(getActivity(), mThemeContrast, mAccent);
 
@@ -194,7 +194,6 @@ public class PlayerFragment
         mAlbumsRecyclerView = view.findViewById(R.id.albums_rv);
         mSongsRecyclerView = view.findViewById(R.id.songs_rv);
 
-        mSettingsView = View.inflate(getContext(), R.layout.settings_popup, null);
 
         mArrowUp.setOnClickListener(new View.OnClickListener() {
             @Override
